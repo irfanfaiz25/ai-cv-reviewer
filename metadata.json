@@ -1,0 +1,6 @@
+{
+  "name": "AI CV Reviewer",
+  "description": "An application that uses AI to review CVs/Resumes uploaded by users in .txt format and provides structured feedback. It features a file uploader, progress indication, and displays the AI-generated review.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
