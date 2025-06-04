@@ -1,11 +1,14 @@
-import React from 'react';
-import { ArrowPathIcon } from '../icons/ArrowPathIcon.jsx';
+import React from "react";
+import { ArrowPathIcon } from "../icons/ArrowPathIcon";
+
+import { ModeSwitcher } from "./ModeSwitcher";
 
 export const AppHeader = ({
   currentMode,
   onShowResetModal,
   showResetButton,
   resetButtonDisabled,
+  onModeChange,
 }) => {
   return (
     <header className="text-center mb-8 sm:mb-12">
@@ -28,14 +31,22 @@ export const AppHeader = ({
         </div>
       </div>
       <p className="mt-1 text-slate-400 text-lg">
-        {currentMode === 'reviewer' ? (
+        {currentMode === "reviewer" ? (
           <>
-            Upload CV <code className="bg-slate-700 px-1 rounded text-sky-300">.pdf</code> lo, biar di-review &amp; di-upgrade sama AI!
+            Upload CV{" "}
+            <code className="bg-slate-700 px-1 rounded text-sky-300">.pdf</code>{" "}
+            lo, biar di-review &amp; di-upgrade sama AI!
           </>
         ) : (
           "Isi form di bawah buat bikin CV ATS-Friendly pake bantuan AI!"
         )}
       </p>
+
+      <ModeSwitcher
+        currentMode={currentMode}
+        onModeChange={onModeChange}
+        disabled={resetButtonDisabled}
+      />
     </header>
   );
 };

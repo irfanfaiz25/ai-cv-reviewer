@@ -7,26 +7,26 @@ import {
   generateOptimizedCvFromReview,
   translateCvFormDataToEnglish,
 } from "./src/services/geminiService.js";
-import { UploadIcon } from "./src/components/icons/UploadIcon.jsx";
-import { SparklesIcon } from "./src/components/icons/SparklesIcon.jsx";
-import { DocumentTextIcon } from "./src/components/icons/DocumentTextIcon.jsx";
+import { UploadIcon } from "./components/icons/UploadIcon.jsx";
+import { SparklesIcon } from "./components/icons/SparklesIcon.jsx";
+import { DocumentTextIcon } from "./components/icons/DocumentTextIcon.jsx";
 import {
   CV_REVIEW_PROMPT_TEMPLATE,
   EXPECTED_SECTION_TITLES_ORDERED,
   TEXT_REFINEMENT_PROMPT_TEMPLATES,
 } from "./constants.js";
-import { DownloadIcon } from "./src/components/icons/DownloadIcon.jsx";
-import { LightbulbIcon } from "./src/components/icons/LightbulbIcon.jsx";
-import { ThumbUpIcon } from "./src/components/icons/ThumbUpIcon.jsx";
-import { WrenchScrewdriverIcon } from "./src/components/icons/WrenchScrewdriverIcon.jsx";
-import { ChatBubbleOvalLeftEllipsisIcon } from "./src/components/icons/ChatBubbleOvalLeftEllipsisIcon.jsx";
-import { TargetIcon } from "./src/components/icons/TargetIcon.jsx";
-import { ArrowPathIcon } from "./src/components/icons/ArrowPathIcon.jsx";
-import { PlusCircleIcon } from "./src/components/icons/PlusCircleIcon.jsx";
-import { TrashIcon } from "./src/components/icons/TrashIcon.jsx";
-import { PencilSquareIcon } from "./src/components/icons/PencilSquareIcon.jsx";
-import { EyeIcon } from "./src/components/icons/EyeIcon.jsx";
-import { BriefcaseIcon } from "./src/components/icons/BriefcaseIcon.jsx";
+import { DownloadIcon } from "./components/icons/DownloadIcon.jsx";
+import { LightbulbIcon } from "./components/icons/LightbulbIcon.jsx";
+import { ThumbUpIcon } from "./components/icons/ThumbUpIcon.jsx";
+import { WrenchScrewdriverIcon } from "./components/icons/WrenchScrewdriverIcon.jsx";
+import { ChatBubbleOvalLeftEllipsisIcon } from "./components/icons/ChatBubbleOvalLeftEllipsisIcon.jsx";
+import { TargetIcon } from "./components/icons/TargetIcon.jsx";
+import { ArrowPathIcon } from "./components/icons/ArrowPathIcon.jsx";
+import { PlusCircleIcon } from "./components/icons/PlusCircleIcon.jsx";
+import { TrashIcon } from "./components/icons/TrashIcon.jsx";
+import { PencilSquareIcon } from "./components/icons/PencilSquareIcon.jsx";
+import { EyeIcon } from "./components/icons/EyeIcon.jsx";
+import { BriefcaseIcon } from "./components/icons/BriefcaseIcon.jsx";
 import { LanguageSelectionModal } from "./src/components/modals/LanguageSelectionModal.jsx";
 
 import { AppFooter } from "./src/components/layout/AppFooter.jsx";
