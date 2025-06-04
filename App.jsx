@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { ProgressBar } from "./components/ProgressBar.jsx";
+import { ProgressBar } from "./src/components/ProgressBar.jsx";
 import {
   getCVReview,
   generateCvFromFormData,
@@ -31,6 +31,8 @@ import { LanguageSelectionModal } from "./src/components/modals/LanguageSelectio
 
 import { AppFooter } from "./src/components/layout/AppFooter.jsx";
 import { AppHeader } from "./src/components/layout/AppHeader.jsx";
+
+import { CvReviewerUI } from "./src/components/cv-reviewer/CvReviewerUI.jsx";
 
 import * as pdfjsLib from "pdfjs-dist";
 import {
@@ -984,255 +986,6 @@ const App = () => {
     );
   };
 
-  const renderCvReviewer = () => (
-    <>
-      <div className="mb-6">
-        <label
-          htmlFor="cv-upload"
-          className={`w-full flex items-center justify-center px-6 py-10 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
-            error && !file
-              ? "border-red-500 hover:border-red-400"
-              : "border-slate-600 hover:border-sky-500"
-          } ${file ? "bg-slate-700" : "bg-slate-800 hover:bg-slate-700"}`}
-        >
-          <input
-            type="file"
-            id="cv-upload"
-            ref={fileInputRef}
-            className="hidden"
-            onChange={handleFileChange}
-            accept=".pdf,application/pdf"
-            disabled={isLoading || isGeneratingOptimizedCv || showLanguageModal}
-          />
-          <div className="text-center">
-            {file ? (
-              <>
-                <DocumentTextIcon className="w-12 h-12 mx-auto mb-3 text-sky-400" />
-                <p className="text-slate-200 font-medium">{file.name}</p>
-                <p className="text-xs text-slate-400">
-                  Klik buat ganti file PDF
-                </p>
-              </>
-            ) : (
-              <>
-                <UploadIcon className="w-12 h-12 mx-auto mb-3 text-slate-500 group-hover:text-sky-400 transition-colors" />
-                <p className="text-slate-300 font-medium">
-                  {error && !file
-                    ? "Coba file lain deh"
-                    : "Klik buat upload atau drag & drop CV (PDF)"}
-                </p>
-                <p className="text-xs text-slate-500">Cuma file PDF ya</p>
-              </>
-            )}
-          </div>
-        </label>
-        {error && (!file || (file && !cvText && !isLoading)) && (
-          <p className="mt-2 text-sm text-red-400 text-center">{error}</p>
-        )}
-      </div>
-
-      <div className="mb-6">
-        <label
-          htmlFor="job-description"
-          className="block text-sm font-medium text-slate-300 mb-1"
-        >
-          Deskripsi Pekerjaan / Lowongan (Opsional, biar makin pas reviewnya!)
-        </label>
-        <textarea
-          id="job-description"
-          rows={4}
-          className="w-full p-3 bg-slate-700 border border-slate-600 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 text-slate-200 placeholder-slate-400 transition-colors"
-          placeholder="Copy-paste deskripsi kerja atau requirement dari lowongan yang lo incer di sini..."
-          value={jobDescription}
-          onChange={handleJobDescriptionChange}
-          disabled={isLoading || isGeneratingOptimizedCv || showLanguageModal}
-        />
-      </div>
-
-      {file &&
-        cvText &&
-        !isLoading &&
-        !review &&
-        !isGeneratingOptimizedCv &&
-        !error && (
-          <button
-            onClick={handleReviewCv}
-            disabled={
-              isLoading ||
-              !cvText ||
-              isGeneratingOptimizedCv ||
-              showLanguageModal
-            }
-            className="w-full flex items-center justify-center bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-600 hover:to-cyan-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-102 transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-75 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <SparklesIcon className="w-5 h-5 mr-2" />
-            Review CV Gue Dong!
-          </button>
-        )}
-
-      {isLoading && !isGeneratingOptimizedCv && (
-        <div className="my-6">
-          <p className="text-center text-sky-300 mb-2 text-lg font-medium">
-            {progress < 10 && !cvText && file
-              ? "Lagi baca PDF lo..."
-              : "Sabar ya, CV lo lagi di-review AI..."}
-          </p>
-          <ProgressBar progress={progress} />
-          <p className="text-center text-xs text-slate-400 mt-2">
-            {progress}% Kelar
-          </p>
-        </div>
-      )}
-
-      {error && !isLoading && !isGeneratingOptimizedCv && !review && (
-        <div className="my-6 p-4 bg-red-900/50 border border-red-700 text-red-300 rounded-md shadow-lg">
-          <p className="font-semibold text-lg">
-            Waduh, ada error pas review nih:
-          </p>
-          <p className="mt-1 text-sm">{error}</p>
-        </div>
-      )}
-
-      {review &&
-        parsedReviewSections.length > 0 &&
-        !isLoading &&
-        !isGeneratingOptimizedCv &&
-        !error && (
-          <div className="mt-8 space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-              <h2 className="text-3xl font-semibold text-center sm:text-left bg-gradient-to-r from-sky-400 to-cyan-300 bg-clip-text text-transparent">
-                Hasil Review CV Lo
-              </h2>
-              <button
-                onClick={handleDownloadOriginalReviewDocx}
-                disabled={isLoading || !review || showLanguageModal}
-                title="Unduh teks review asli dalam format .docx"
-                className="w-full sm:w-auto flex items-center justify-center bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-2.5 px-5 rounded-lg shadow-md hover:shadow-lg transform hover:scale-102 transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <DownloadIcon className="w-5 h-5 mr-2" />
-                Unduh Teks Review (.docx)
-              </button>
-            </div>
-
-            {parsedReviewSections.map((section) => (
-              <section
-                key={section.id}
-                aria-labelledby={section.id}
-                className="bg-slate-700/70 p-4 sm:p-6 rounded-xl shadow-xl border border-slate-600/50"
-              >
-                <div className="flex items-center mb-3 sm:mb-4">
-                  <div className="mr-3 sm:mr-4 shrink-0">{section.icon}</div>
-                  <h3
-                    id={section.id}
-                    className="text-xl sm:text-2xl font-semibold text-sky-300"
-                  >
-                    {section.title}
-                  </h3>
-                </div>
-                <div
-                  className="prose prose-sm sm:prose-base prose-slate max-w-none 
-                              prose-strong:text-slate-100 prose-em:text-slate-300 
-                              prose-p:text-slate-300 prose-li:text-slate-300
-                              prose-headings:text-sky-300"
-                >
-                  {section.contentBlocks.map((block, idx) =>
-                    React.cloneElement(block, {
-                      key: `${section.id}-block-${idx}`,
-                    })
-                  )}
-                </div>
-              </section>
-            ))}
-          </div>
-        )}
-
-      {review &&
-        parsedReviewSections.length === 0 &&
-        !isLoading &&
-        !error &&
-        !isGeneratingOptimizedCv && (
-          <div className="mt-8 p-6 bg-slate-700/50 rounded-lg shadow-xl border border-slate-600">
-            <h2 className="text-2xl font-semibold mb-4 bg-gradient-to-r from-sky-500 to-cyan-400 bg-clip-text text-transparent">
-              CV Review Feedback (Raw)
-            </h2>
-            <p className="text-sm text-amber-400 mb-2">
-              Gagal mem-parsing review ke dalam sections, menampilkan mentahan:
-            </p>
-            <pre className="whitespace-pre-wrap text-slate-200 text-sm leading-relaxed bg-slate-800 p-4 rounded-md max-h-[500px] overflow-y-auto">
-              {review}
-            </pre>
-          </div>
-        )}
-
-      {review && cvText && !isLoading && !isGeneratingOptimizedCv && !error && (
-        <div className="mt-8 pt-6 border-t border-slate-700">
-          <button
-            onClick={() => handleOpenLanguageModal("fromReview")}
-            disabled={showLanguageModal || isGeneratingOptimizedCv}
-            className="w-full flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-102 transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <SparklesIcon className="w-5 h-5 mr-2" />
-            Mau saya buatkan perbaikan CV?
-          </button>
-        </div>
-      )}
-
-      {isGeneratingOptimizedCv && (
-        <div className="my-6 pt-6 border-t border-slate-700">
-          <p className="text-center text-purple-300 mb-2 text-lg font-medium">
-            Lagi dioptimalkan sama AI jadi ATS-Friendly... Sabar ya!
-          </p>
-          <ProgressBar progress={50} />
-        </div>
-      )}
-
-      {optimizedCvError && !isGeneratingOptimizedCv && (
-        <div className="my-6 p-4 bg-red-900/50 border border-red-700 text-red-300 rounded-md shadow-lg">
-          <p className="font-semibold text-lg">
-            Waduh, gagal memproses CV optimal:
-          </p>
-          <p className="mt-1 text-sm">{optimizedCvError}</p>
-        </div>
-      )}
-
-      {docxError &&
-        currentMode === "reviewer" &&
-        generatedOptimizedCvText &&
-        !isGeneratingOptimizedCv && (
-          <div className="my-6 p-4 bg-red-900/50 border border-red-700 text-red-300 rounded-md shadow-lg">
-            <p className="font-semibold text-lg">
-              Error Unduh DOCX untuk CV Optimal:
-            </p>
-            <p className="mt-1 text-sm">{docxError}</p>
-          </div>
-        )}
-
-      {generatedOptimizedCvText &&
-        !isGeneratingOptimizedCv &&
-        !optimizedCvError && (
-          <div className="mt-10 pt-6 border-t border-slate-600">
-            <h3 className="text-2xl font-semibold text-purple-300 mb-4 text-center">
-              Ini Dia CV Optimal Lo (
-              {selectedGenerationLanguage === "en" ? "English" : "Indonesia"})!
-            </h3>
-            <p className="text-center text-slate-400 mb-4 text-sm">
-              File .docx juga sudah otomatis terunduh jika tidak ada error.
-            </p>
-            <pre className="whitespace-pre-wrap text-slate-200 text-sm leading-relaxed bg-slate-800 p-4 rounded-md max-h-[600px] overflow-y-auto border border-slate-600 shadow-inner">
-              {generatedOptimizedCvText}
-            </pre>
-          </div>
-        )}
-      {!file && !isLoading && !review && !error && !isGeneratingOptimizedCv && (
-        <div className="text-center text-slate-500 py-10">
-          <DocumentTextIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
-          <p>Upload dulu CV lo biar bisa di-review.</p>
-          <p className="text-xs mt-1">( inget ya, cuma file .pdf )</p>
-        </div>
-      )}
-    </>
-  );
-
   const renderCvGenerator = () => {
     const commonInputClass =
       "w-full p-3 bg-slate-700 border border-slate-600 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 text-slate-200 placeholder-slate-400 transition-colors disabled:opacity-60";
@@ -2052,64 +1805,33 @@ const App = () => {
           onModeChange={handleModeChange}
         />
 
-        {/* <header className="text-center mb-8 sm:mb-12">
-          <div className="flex justify-between items-center mb-2">
-            <div className="w-1/3"></div>
-            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-sky-500 to-cyan-400 bg-clip-text text-transparent w-auto text-center whitespace-nowrap px-4">
-              AI CV Suite
-            </h1>
-            <div className="w-1/3 flex justify-end">
-              {isDirty && !commonBusyState && (
-                <button
-                  onClick={handleShowResetModal}
-                  title="Reset Form"
-                  className="p-2 rounded-md text-slate-400 hover:text-sky-400 hover:bg-slate-700 transition-colors"
-                  disabled={commonBusyState}
-                >
-                  <ArrowPathIcon className="w-6 h-6" />
-                </button>
-              )}
-            </div>
-          </div>
-          <p
-            className="mt-1 text-slate-400 text-lg"
-            dangerouslySetInnerHTML={{
-              __html:
-                currentMode === "reviewer"
-                  ? "Upload CV .pdf lo, biar di-review & di-upgrade sama AI!"
-                  : "Isi form di bawah buat bikin CV ATS-Friendly pake bantuan AI!",
-            }}
-          ></p>
-          <div className="mt-6 flex justify-center space-x-3 sm:space-x-4">
-            <button
-              onClick={() => handleModeChange("reviewer")}
-              disabled={commonBusyState}
-              className={`px-4 py-2.5 sm:px-6 rounded-lg font-medium transition-all duration-200 ease-in-out flex items-center ${
-                currentMode === "reviewer"
-                  ? "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg scale-105"
-                  : "bg-slate-700 hover:bg-slate-600 text-slate-300"
-              }`}
-            >
-              <EyeIcon className="w-5 h-5 mr-2" /> CV Reviewer
-            </button>
-            <button
-              onClick={() => handleModeChange("generator")}
-              disabled={commonBusyState}
-              className={`px-4 py-2.5 sm:px-6 rounded-lg font-medium transition-all duration-200 ease-in-out flex items-center ${
-                currentMode === "generator"
-                  ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg scale-105"
-                  : "bg-slate-700 hover:bg-slate-600 text-slate-300"
-              }`}
-            >
-              <BriefcaseIcon className="w-5 h-5 mr-2" /> CV Generator
-            </button>
-          </div>
-        </header> */}
-
         <main className="w-full bg-slate-800 shadow-2xl rounded-lg p-6 sm:p-8">
-          {currentMode === "reviewer"
-            ? renderCvReviewer()
-            : renderCvGenerator()}
+          {currentMode === "reviewer" ? (
+            <CvReviewerUI
+              file={file}
+              cvText={cvText}
+              jobDescription={jobDescription}
+              review={review}
+              parsedReviewSections={parsedReviewSections}
+              isLoading={isLoading}
+              progress={progress}
+              error={error}
+              docxError={docxError}
+              fileInputRef={fileInputRef}
+              handleFileChange={handleFileChange}
+              handleJobDescriptionChange={handleJobDescriptionChange}
+              handleReviewCv={handleReviewCv}
+              handleDownloadReviewDocx={handleDownloadOriginalReviewDocx}
+              isGeneratingOptimizedCv={isGeneratingOptimizedCv}
+              showLanguageModal={showLanguageModal}
+              optimizedCvError={optimizedCvError}
+              generatedOptimizedCvText={generatedOptimizedCvText}
+              handleOpenLanguageModal={handleOpenLanguageModal}
+              selectedGenerationLanguage={selectedGenerationLanguage}
+            />
+          ) : (
+            renderCvGenerator()
+          )}
         </main>
 
         {/* Footer */}
