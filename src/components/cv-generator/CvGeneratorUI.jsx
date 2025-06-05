@@ -79,7 +79,7 @@ export const CvGeneratorUI = ({
     >
       <div className="space-y-8">
         <section className="p-6 bg-slate-700/50 rounded-xl shadow-lg">
-          <h3 className="text-xl font-semibold text-sky-300 mb-4">
+          <h3 className="text-lg md:text-xl font-semibold text-sky-300 mb-4">
             Informasi Pribadi
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
@@ -176,7 +176,7 @@ export const CvGeneratorUI = ({
         </section>
 
         <section className="p-6 bg-slate-700/50 rounded-xl shadow-lg">
-          <h3 className="text-xl font-semibold text-sky-300 mb-4">
+          <h3 className="text-lg md:text-xl font-semibold text-sky-300 mb-4">
             Ringkasan Profil
           </h3>
           <textarea
@@ -200,7 +200,7 @@ export const CvGeneratorUI = ({
 
         <section className="p-6 bg-slate-700/50 rounded-xl shadow-lg">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold text-sky-300">
+            <h3 className="text-lg md:text-xl font-semibold text-sky-300">
               Pengalaman Kerja / Magang
             </h3>
             <button
@@ -364,7 +364,9 @@ export const CvGeneratorUI = ({
 
         <section className="p-6 bg-slate-700/50 rounded-xl shadow-lg">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold text-sky-300">Pendidikan</h3>
+            <h3 className="text-lg md:text-xl font-semibold text-sky-300">
+              Pendidikan
+            </h3>
             <button
               type="button"
               onClick={() =>
@@ -503,7 +505,7 @@ export const CvGeneratorUI = ({
         </section>
 
         <section className="p-6 bg-slate-700/50 rounded-xl shadow-lg">
-          <h3 className="text-xl font-semibold text-sky-300 mb-4">
+          <h3 className="text-lg md:text-xl font-semibold text-sky-300 mb-4">
             Keterampilan
           </h3>
           <textarea
@@ -527,7 +529,7 @@ export const CvGeneratorUI = ({
 
         <section className="p-6 bg-slate-700/50 rounded-xl shadow-lg">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold text-sky-300">
+            <h3 className="text-lg md:text-xl font-semibold text-sky-300">
               Pengalaman Organisasi (Opsional)
             </h3>
             <button
@@ -640,7 +642,7 @@ export const CvGeneratorUI = ({
 
         <section className="p-6 bg-slate-700/50 rounded-xl shadow-lg">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold text-sky-300">
+            <h3 className="text-lg md:text-xl font-semibold text-sky-300">
               Penghargaan & Sertifikasi (Opsional)
             </h3>
             <button

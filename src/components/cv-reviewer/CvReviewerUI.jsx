@@ -59,12 +59,12 @@ export const CvReviewerUI = ({
             ) : (
               <>
                 <UploadIcon className="w-12 h-12 mx-auto mb-3 text-slate-500 group-hover:text-sky-400 transition-colors" />
-                <p className="text-slate-300 font-medium">
+                <p className="text-slate-300 font-medium text-sm md:text-base">
                   {error && !file
                     ? "Coba file lain deh"
                     : "Klik buat upload atau drag & drop CV (PDF)"}
                 </p>
-                <p className="text-xs text-slate-500">Cuma file PDF ya</p>
+                <p className="mt-2 text-xs text-slate-500">Cuma file PDF ya</p>
               </>
             )}
           </div>
