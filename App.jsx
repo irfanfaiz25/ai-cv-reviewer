@@ -45,6 +45,7 @@ import {
 } from "docx";
 import saveAs from "file-saver";
 import { CvGeneratorUI } from "./src/components/cv-generator/CvGeneratorUI.jsx";
+import { ResetConfirmationModal } from "./src/components/modals/ResetConfirmationModal.jsx";
 
 const pdfjsInstance = pdfjsLib;
 pdfjsInstance.GlobalWorkerOptions.workerSrc =
