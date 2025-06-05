@@ -2,6 +2,8 @@
 
 Your Intelligent Career Companion - Transform your resume game with AI-powered insights and professional document generation
 
+🌐 [Live Demo](https://ai-cv-reviewer-kappa.vercel.app/)
+
 ## ✨ What is AI CV Suite?
 
 AI CV Suite is a cutting-edge React application that revolutionizes how professionals approach their career development. This powerful dual-mode platform combines the intelligence of Google's Gemini AI with an intuitive user interface to deliver two essential career tools in one seamless experience.
@@ -28,29 +30,29 @@ AI CV Suite is a cutting-edge React application that revolutionizes how professi
 1. Clone the repository
 
    ```
-   git clone https://github.com/yourusername/
+   git clone https://github.com/yourusername/
    ai-cv-suite.git
-   cd ai-cv-suite
+   cd ai-cv-suite
    ```
 
 2. Install dependencies
 
    ```
-   npm install
+   npm install
    ```
 
 3. Set up environment variables
 
    ```
-   # Create .env.local file
-   echo "GEMINI_API_KEY=your_gemini_api_key_here" > .
+   # Create .env.local file
+   echo "GEMINI_API_KEY=your_gemini_api_key_here" > .
    env.local
    ```
 
 4. Start the development server
 
    ```
-   npm run dev
+   npm run dev
    ```
 
 5. Open your browser Navigate to http://localhost:5173 and start optimizing your career! 🎉
